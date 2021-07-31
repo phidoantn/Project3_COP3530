@@ -1,8 +1,42 @@
 #include "Screen.h"
+#include "BST.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
 using namespace std;
 Screen::Screen() {
+    /// read file and make BST ///
+    fstream file;
+    file.open("dnaFile.csv");
+
+    BST tree;
+    string line, word;
+    string RSID, chromosome, position, result;
+    vector<string> infoLine;
+    int iter = 0;
+    while(getline(file, line)){                                 //we don't want anything to do with the first 13 lines
+        istringstream stream(line);
+        if(iter == 13){
+            break;
+        }
+        iter++;
+    }
+
+    while(getline(file, line)){                                 //gets line
+        istringstream stream(line);
+        while(getline(stream, word, ',')){                 //parses the 4 things on line: save to vector
+            infoLine.push_back(word);
+        }
+        string withoutRS = infoLine.at(0).substr(2, infoLine.at(0).length()); //don't need the rs, just want the integer part
+        tree.insertNode(tree.root, stoi(withoutRS), infoLine.at(3));
+    }
+    /// need to learn about which traits certain dna sequences make and search the tree ///
+
+
+
+
 }
 
 void Screen::Draw(sf::RenderWindow &window, sf::Vector2i mousePosition) {
@@ -120,13 +154,13 @@ void Screen::TopButton(sf::RenderWindow &window) {
 
         /// dna helix ///
         sf::Texture tex;
-        if(!tex.loadFromFile("dnahelix.jpeg")){
+        if(!tex.loadFromFile("dnahelix.png")){
             cout << "helix did not load correctly" << endl;
         }
         sf::Sprite helix;
         helix.setTexture(tex);
-        helix.setScale(sf::Vector2f(0.3f, 0.3f));
-        helix.setPosition(580.f, 160.f);
+        helix.setScale(sf::Vector2f(2.2f, 2.2f));
+        helix.setPosition(580.f, 130.f);
 
         window.draw(helix);
 
@@ -164,7 +198,7 @@ void Screen::BottomButton(sf::RenderWindow &window) {
 
         /// man/woman ///
         sf::Texture tex2;
-        if(!tex2.loadFromFile("body2.png")){
+        if(!tex2.loadFromFile("body.png")){
             cout << "head did not load correctly" << endl;
         }
         sf::Sprite body;
