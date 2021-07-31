@@ -3,11 +3,9 @@
 #include <iostream>
 using namespace std;
 Screen::Screen() {
-
-
 }
 
-void Screen::Draw(sf::RenderWindow &window) {
+void Screen::Draw(sf::RenderWindow &window, sf::Vector2i mousePosition) {
     sf::Font font;
     if(!font.loadFromFile("font.otf")){
         cout << "error loading font" << endl;
@@ -61,97 +59,119 @@ void Screen::Draw(sf::RenderWindow &window) {
     window.draw(text);
     window.draw(traits);
 
-    /// subtitles ///
-    sf::Text s1;
-    sf::Text s2;
-    s1.setFont(font);
-    s2.setFont(font);
-    s1.setString("Build DNA");
-    s2.setString("Build Traits");
-    s1.setCharacterSize(40);
-    s2.setCharacterSize(40);
-    s1.setFillColor(sf::Color::Black);
-    s2.setFillColor(sf::Color::Black);
-    s1.setPosition(680.f, 40.f);
-    s2.setPosition(1200.f, 40.f);
-    s1.setStyle(sf::Text::Bold);
-    s2.setStyle(sf::Text::Bold);
-    s1.setStyle(sf::Text::Underlined);
-    s2.setStyle(sf::Text::Underlined);
+    /// box ///
+    sf::RectangleShape b(sf::Vector2f(400, 500));
+    b.setPosition(850.f, 200.f);
+    b.setFillColor(sf::Color::Transparent);
+    b.setOutlineColor(sf::Color::Black);
+    b.setOutlineThickness(2);
 
-    window.draw(s1);
-    window.draw(s2);
+    window.draw(b);
 
-    /// sub-subtitles ///
-    sf::Text ss1;
-    sf::Text ss2;
-    ss1.setFont(font);
-    ss2.setFont(font);
-    ss1.setString("Traits:");
-    ss2.setString("DNA Sequence:");
-    ss1.setCharacterSize(30);
-    ss2.setCharacterSize(30);
-    ss1.setFillColor(sf::Color::Black);
-    ss2.setFillColor(sf::Color::Black);
-    ss1.setPosition(750.f, 140.f);
-    ss2.setPosition(1370.f, 140.f);
-    ss1.setStyle(sf::Text::Bold);
-    ss2.setStyle(sf::Text::Bold);
+    int heightB = 350;  //dimensions for top button
+    int heightT = 425;
+    int widthL = 115;
+    int widthR = 415;
 
-    window.draw(ss1);
-    window.draw(ss2);
+    int heightBB = 500; //dimensions for bottom button
+    int heightTB = 575; //(extra B for bottom button)
+    int widthLB = 115;
+    int widthRB = 415;
 
-    /// dna helix ///
-    sf::Texture tex;
-    if(!tex.loadFromFile("dnahelix.jpeg")){
-        cout << "helix did not load correctly" << endl;
+    //if top button clicked
+    if(mousePosition.y  > heightB && mousePosition.y < heightT && mousePosition.x > widthL && mousePosition.x < widthR){
+        TopButton(window);
     }
-    sf::Sprite helix;
-    helix.setTexture(tex);
-    helix.setScale(sf::Vector2f(0.2f, 0.2f));
-    helix.setPosition(550.f, 230.f);
-
-    window.draw(helix);
-
-    /// man/woman ///
-    sf::Texture tex2;
-    if(!tex2.loadFromFile("body.png")){
-        cout << "head did not load correctly" << endl;
+    //if bottom button clicked
+    if(mousePosition.y  > heightBB && mousePosition.y < heightTB && mousePosition.x > widthLB && mousePosition.x < widthRB){
+        BottomButton(window);
     }
-    sf::Sprite body;
-    body.setTexture(tex2);
-    body.setPosition(1050.f, 130.f);
-    body.setScale(sf::Vector2f(0.8f, 0.8f));
-
-    window.draw(body);
-
-    /// boxes ///
-    sf::RectangleShape b1(sf::Vector2f(300, 500));
-    sf::RectangleShape b2(sf::Vector2f(300, 500));
-    b1.setPosition(700.f, 200.f);
-    b2.setPosition(1320.f, 200.f);
-    b1.setFillColor(sf::Color::Transparent);
-    b2.setFillColor(sf::Color::Transparent);
-    b1.setOutlineColor(sf::Color::Black);
-    b2.setOutlineColor(sf::Color::Black);
-    b1.setOutlineThickness(2);
-    b2.setOutlineThickness(2);
-
-    window.draw(b1);
-    window.draw(b2);
-
 
 
 }
 
-void Screen::LeftClick(sf::Vector2i mousePosition) {
+void Screen::TopButton(sf::RenderWindow &window) {
+    sf::Font font;
+    if(!font.loadFromFile("font.otf")){
+        cout << "error loading font" << endl;
+    }
+        /// subtitles ///
+        sf::Text s1;
+        s1.setFont(font);
+        s1.setString("Build DNA");
+        s1.setCharacterSize(45);
+        s1.setFillColor(sf::Color::Black);
+        s1.setPosition(680.f, 40.f);
+        s1.setStyle(sf::Text::Bold);
+        s1.setStyle(sf::Text::Underlined);
+
+        window.draw(s1);
+
+        /// sub-subtitles ///
+        sf::Text ss1;
+        ss1.setFont(font);
+        ss1.setString("Traits:");
+        ss1.setCharacterSize(35);
+        ss1.setFillColor(sf::Color::Black);
+        ss1.setPosition(850.f, 140.f);
+        ss1.setStyle(sf::Text::Bold);
+
+        window.draw(ss1);
+
+        /// dna helix ///
+        sf::Texture tex;
+        if(!tex.loadFromFile("dnahelix.jpeg")){
+            cout << "helix did not load correctly" << endl;
+        }
+        sf::Sprite helix;
+        helix.setTexture(tex);
+        helix.setScale(sf::Vector2f(0.3f, 0.3f));
+        helix.setPosition(580.f, 160.f);
+
+        window.draw(helix);
+
+    }
+
+
+void Screen::BottomButton(sf::RenderWindow &window) {
+    sf::Font font;
+    if(!font.loadFromFile("font.otf")){
+        cout << "error loading font" << endl;
+    }
+        /// subtitles ///
+        sf::Text s2;
+        s2.setFont(font);
+        s2.setString("Build Traits");
+        s2.setCharacterSize(45);
+        s2.setFillColor(sf::Color::Black);
+        s2.setPosition(760.f, 40.f);
+        s2.setStyle(sf::Text::Bold);
+        s2.setStyle(sf::Text::Underlined);
+
+        window.draw(s2);
+
+        /// sub-subtitles ///
+        sf::Text ss2;
+        ss2.setFont(font);
+        ss2.setString("DNA Sequence:");
+        ss2.setCharacterSize(35);
+        ss2.setFillColor(sf::Color::Black);
+        ss2.setPosition(850.f, 140.f);
+        ss2.setStyle(sf::Text::Bold);
+
+        window.draw(ss2);
+
+
+        /// man/woman ///
+        sf::Texture tex2;
+        if(!tex2.loadFromFile("body2.png")){
+            cout << "head did not load correctly" << endl;
+        }
+        sf::Sprite body;
+        body.setTexture(tex2);
+        body.setPosition(500.f, 1.f);
+        body.setScale(sf::Vector2f(2.0f, 2.0f));
+
+        window.draw(body);
 
 }
-
-void Screen::RightClick(sf::Vector2i mousePosition) {
-
-}
-
-
-
-
