@@ -72,8 +72,8 @@ void Screen::Draw(sf::RenderWindow &window) {
     s2.setCharacterSize(40);
     s1.setFillColor(sf::Color::Black);
     s2.setFillColor(sf::Color::Black);
-    s1.setPosition(550.f, 40.f);
-    s2.setPosition(950.f, 40.f);
+    s1.setPosition(680.f, 40.f);
+    s2.setPosition(1200.f, 40.f);
     s1.setStyle(sf::Text::Bold);
     s2.setStyle(sf::Text::Bold);
     s1.setStyle(sf::Text::Underlined);
@@ -93,8 +93,8 @@ void Screen::Draw(sf::RenderWindow &window) {
     ss2.setCharacterSize(30);
     ss1.setFillColor(sf::Color::Black);
     ss2.setFillColor(sf::Color::Black);
-    ss1.setPosition(700.f, 140.f);
-    ss2.setPosition(1200.f, 140.f);
+    ss1.setPosition(750.f, 140.f);
+    ss2.setPosition(1370.f, 140.f);
     ss1.setStyle(sf::Text::Bold);
     ss2.setStyle(sf::Text::Bold);
 
@@ -109,8 +109,37 @@ void Screen::Draw(sf::RenderWindow &window) {
     sf::Sprite helix;
     helix.setTexture(tex);
     helix.setScale(sf::Vector2f(0.2f, 0.2f));
-    helix.setPosition(500.f, 200.f);
+    helix.setPosition(550.f, 230.f);
+
     window.draw(helix);
+
+    /// man/woman ///
+    sf::Texture tex2;
+    if(!tex2.loadFromFile("body.png")){
+        cout << "head did not load correctly" << endl;
+    }
+    sf::Sprite body;
+    body.setTexture(tex2);
+    body.setPosition(1050.f, 130.f);
+    body.setScale(sf::Vector2f(0.8f, 0.8f));
+
+    window.draw(body);
+
+    /// boxes ///
+    sf::RectangleShape b1(sf::Vector2f(300, 500));
+    sf::RectangleShape b2(sf::Vector2f(300, 500));
+    b1.setPosition(700.f, 200.f);
+    b2.setPosition(1320.f, 200.f);
+    b1.setFillColor(sf::Color::Transparent);
+    b2.setFillColor(sf::Color::Transparent);
+    b1.setOutlineColor(sf::Color::Black);
+    b2.setOutlineColor(sf::Color::Black);
+    b1.setOutlineThickness(2);
+    b2.setOutlineThickness(2);
+
+    window.draw(b1);
+    window.draw(b2);
+
 
 
 }
