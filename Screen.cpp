@@ -1,5 +1,5 @@
+#pragma
 #include "Screen.h"
-#include "BST.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
@@ -7,36 +7,37 @@
 #include <vector>
 using namespace std;
 Screen::Screen() {
-    /// read file and make BST ///
-    fstream file;
-    file.open("dnaFile.csv");
 
-    BST tree;
-    string line, word;
-    string RSID, chromosome, position, result;
-    vector<string> infoLine;
+}
+void Screen::insertBST() {
+    ifstream file;
+    file.open("halfsize.csv");
+
+    if(!file.is_open()){
+        cout << "dna file failure" << endl;
+    }
+
+    string line, rsid, ch, pos, result;
     int iter = 0;
-    while(getline(file, line)){                                 //we don't want anything to do with the first 13 lines
+
+    while(getline(file, line)){                                     //gets line
+
         istringstream stream(line);
-        if(iter == 13){
-            break;
+        cout << "entered while loop" << endl;
+        cout << "line: " << iter << endl;
+        if(iter > 13) {                                                      //dont want first 13 lines
+            getline(stream, rsid, ',');
+            getline(stream, ch, ',') ;
+            getline(stream, pos, ',') ;
+            getline(stream, result, '"') ;
+
+            string withoutRS = rsid.substr(2, rsid.length());           //don't need the rs, just want the integer part
+
+            cout << "rsid " << rsid << ". result " << result << endl;
+            tree.insertNode(tree.root, stoi(withoutRS), result);
         }
         iter++;
     }
-
-    while(getline(file, line)){                                 //gets line
-        istringstream stream(line);
-        while(getline(stream, word, ',')){                 //parses the 4 things on line: save to vector
-            infoLine.push_back(word);
-        }
-        string withoutRS = infoLine.at(0).substr(2, infoLine.at(0).length()); //don't need the rs, just want the integer part
-        tree.insertNode(tree.root, stoi(withoutRS), infoLine.at(3));
-    }
-    /// need to learn about which traits certain dna sequences make and search the tree ///
-
-
-
-
 }
 
 void Screen::Draw(sf::RenderWindow &window, sf::Vector2i mousePosition) {
@@ -207,5 +208,59 @@ void Screen::BottomButton(sf::RenderWindow &window) {
         body.setScale(sf::Vector2f(2.0f, 2.0f));
 
         window.draw(body);
+
+        ///build tree
+        insertBST();
+        ///get vector of traits
+        tree.searchBST(tree.root);
+        ///gender
+        if(tree.traits.at(0) == "GG"){  //"boy"
+            sf::Texture s;
+            if(!s.loadFromFile("images/blueshirt.jpg")){
+                cout << "blue shirt did not load correctly" << endl;
+            }
+            sf::Sprite blueshirt;
+            blueshirt.setTexture(s);
+            blueshirt.setScale(sf::Vector2f(1.0f, 1.0f));
+            blueshirt.setPosition(580.f, 130.f);
+
+            window.draw(blueshirt);
+        }
+        else{
+            //outfit
+        }
+        ///eyes
+        if(tree.traits.at(1) == "CT"){
+            //brown eyes
+        }
+        else if(tree.traits.at(1) == "CC"){
+            //blue eyes
+        }
+        else if(tree.traits.at(1) == "TT"){
+            //black eyes
+        }
+        else{
+            //green eyes
+        }
+        ///hair
+        if(tree.traits.at(2) == "GG"){
+            //brown hair
+        }
+        else if(tree.traits.at(2) == "GT"){
+            //blonde hair
+        }
+        else if(tree.traits.at(2) == "TT"){
+            //black hair
+        }
+        else{
+            //red hair
+        }
+        ///personality
+        if(tree.traits.at(3) == "AG"){
+            //happy
+        }
+        else{
+            //sad
+        }
 
 }
