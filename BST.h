@@ -1,4 +1,6 @@
+#pragma
 #include <string>
+#include <vector>
 using namespace std;
 
 class BST {
@@ -13,10 +15,14 @@ class BST {
     };
 public:
     Node* root;
+    vector<string> traits;
     BST();
     Node* insertNode(Node* r, int rsid, string result);
+    void searchBST(Node* r);
 
 };
+
+
 
 
 
