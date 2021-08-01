@@ -3,26 +3,27 @@
 #include <vector>
 using namespace std;
 
-class BST {
-    class Node {
+class Node {
     public:
         int rsid;
         string result;
         Node* left;
         Node* right;
-        Node();
-        Node(int rs, string res);
-    };
+        Node():rsid(0),result(""), left(nullptr), right(nullptr) {};
+        Node(int rs, string res) :rsid(rs), result(res), left(nullptr), right(nullptr) {};
+        ~Node();
+};
+class BST {
+    
 public:
     Node* root;
+    BST() :root(nullptr) {};
+    ~BST();
     vector<string> traits;
-    BST();
+
     Node* insertNode(Node* r, int rsid, string result);
-    void searchBST(Node* r);
+    //void searchBST(Node* r);
 
 };
-
-
-
 
 
