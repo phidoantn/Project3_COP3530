@@ -10,7 +10,7 @@ Screen::Screen() {
 
 }
 void Screen::insertBST() {
- 
+
     ifstream file;
     file.open("dna.csv");
 
@@ -20,28 +20,29 @@ void Screen::insertBST() {
 
     string line, rsid, ch, pos, result;
     int iter = 0;
-
+    int count = 0;
     //gets line, reach each line
-    while (getline(file, line) && iter < 30) {                                     
+    while (getline(file, line)) {
 
         istringstream stream(line);
-       
-        //obmit first 13 lines 
-        if (iter > 12) {                                                      
+
+        //omit first 13 lines
+        if (iter > 12) {
             getline(stream, rsid, ',');
             getline(stream, ch, ',');
             getline(stream, pos, ',');
             getline(stream, result, '"');
-            
+
             //don't need the rs, just want the integer part
-            string withoutRS = rsid.substr(3, rsid.length());           
+            string withoutRS = rsid.substr(3, rsid.length());
 
             // push into the tree
             tree.root = tree.insertNode(tree.root, stoi(withoutRS), result);
+            count++;
         }
         iter++;
     }
-
+    cout << "count: " << count << endl;
     file.close();
 }
 
@@ -160,7 +161,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     /// dna helix ///
     sf::Texture tex;
-    if (!tex.loadFromFile("files/dnahelix.png")) {
+    if (!tex.loadFromFile("dnahelix.png")) {
         cout << "helix did not load correctly" << endl;
     }
     sf::Sprite helix;
@@ -204,7 +205,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
     /// man/woman ///
     sf::Texture tex2;
-    if (!tex2.loadFromFile("files/body.png")) {
+    if (!tex2.loadFromFile("body.png")) {
         cout << "head did not load correctly" << endl;
     }
     sf::Sprite body;
@@ -217,56 +218,256 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     ///build tree
     insertBST();
     ///get vector of traits
+    tree.searchBST(tree.root);
 
-    //tree.searchBST(tree.root);
+    string f, s, t, fo;         //specific trait + trait
+    string g, e, h, p;          //specific trait (to be added to string above
     ///gender
+    bool female = true;
     if (tree.traits.at(0) == "GG") {  //"boy"
         sf::Texture s;
-        if (!s.loadFromFile("images/blueshirt.jpg")) {
+        if (!s.loadFromFile("images/yy.jpg")) {
             cout << "blue shirt did not load correctly" << endl;
         }
         sf::Sprite blueshirt;
         blueshirt.setTexture(s);
-        blueshirt.setScale(sf::Vector2f(1.0f, 1.0f));
-        blueshirt.setPosition(580.f, 130.f);
+        blueshirt.setScale(sf::Vector2f(0.4f, 0.4f));
+        blueshirt.setPosition(510.f, 170.f);
+        female = false;
 
         window.draw(blueshirt);
+        g = "male";
     }
     else {
-        //outfit
+        sf::Texture b;
+        if (!b.loadFromFile("images/pinkshirt.png")) {
+            cout << "pink shirt did not load correctly" << endl;
+        }
+        sf::Sprite pinkshirt;
+        pinkshirt.setTexture(b);
+        pinkshirt.setScale(sf::Vector2f(1.0f, 1.0f));
+        pinkshirt.setPosition(580.f, 130.f);
+
+        window.draw(pinkshirt);
+        g = "Female";
     }
-    ///eyes
+    f = g + " gender";
+
+
+                                                                    ///eyes///
     if (tree.traits.at(1) == "CT") {
-        //brown eyes
+        sf::Texture h;
+        if (!h.loadFromFile("images/browneyes.jpeg")) {
+            cout << "brown eyes did not load correctly" << endl;
+        }
+        sf::Sprite browneyes;
+        browneyes.setTexture(h);
+        browneyes.setScale(sf::Vector2f(0.2f, 0.2f));
+        browneyes.setPosition(580.f, 130.f);
+
+        window.draw(browneyes);
+        e = "brown";
     }
     else if (tree.traits.at(1) == "CC") {
-        //blue eyes
+        sf::Texture y;
+        if (!y.loadFromFile("images/blueeyes.jpeg")) {
+            cout << "blue eyes did not load correctly" << endl;
+        }
+        sf::Sprite blueeyes;
+        blueeyes.setTexture(y);
+        blueeyes.setScale(sf::Vector2f(1.0f, 1.0f));
+        blueeyes.setPosition(580.f, 130.f);
+
+        window.draw(blueeyes);
+        e = "blue";
     }
     else if (tree.traits.at(1) == "TT") {
-        //black eyes
+        sf::Texture g;
+        if (!g.loadFromFile("images/blackeyes.jpeg")) {
+            cout << "black eyes did not load correctly" << endl;
+        }
+        sf::Sprite blackeyes;
+        blackeyes.setTexture(g);
+        blackeyes.setScale(sf::Vector2f(1.0f, 1.0f));
+        blackeyes.setPosition(580.f, 130.f);
+
+        window.draw(blackeyes);
+        e = "black";
     }
     else {
-        //green eyes
+        sf::Texture u;
+        if (!u.loadFromFile("images/greeneyes.jpeg")) {
+            cout << "green eyes did not load correctly" << endl;
+        }
+        sf::Sprite greeneyes;
+        greeneyes.setTexture(u);
+        greeneyes.setScale(sf::Vector2f(1.0f, 1.0f));
+        greeneyes.setPosition(580.f, 130.f);
+
+        window.draw(greeneyes);
+        e = "green";
     }
-    ///hair
-    if (tree.traits.at(2) == "GG") {
-        //brown hair
+    s = e + " eyes";
+
+
+                                                                    ///hair///
+    if (tree.traits.at(2) == "GG") {            //brown
+        if(female){
+            sf::Texture z;
+            if (!z.loadFromFile("images/brownhairgirl.png")) {
+                cout << "brown hair girl did not load correctly" << endl;
+            }
+            sf::Sprite brownhairgirl;
+            brownhairgirl.setTexture(z);
+            brownhairgirl.setScale(sf::Vector2f(0.5f, 0.5f));
+            brownhairgirl.setPosition(600.f, 100.f);
+
+            window.draw(brownhairgirl);
+            h = "brown";
+        }
+        else{
+            sf::Texture q;
+            if (!q.loadFromFile("images/brownhairguy.png")) {
+                cout << "brown hair guy did not load correctly" << endl;
+            }
+            sf::Sprite brownhairguy;
+            brownhairguy.setTexture(q);
+            brownhairguy.setScale(sf::Vector2f(0.15f, 0.15f));
+            brownhairguy.setPosition(600.f, 45.f);
+
+            window.draw(brownhairguy);
+            h = "brown";
+        }
     }
-    else if (tree.traits.at(2) == "GT") {
-        //blonde hair
+    else if (tree.traits.at(2) == "GT") {       //blonde
+        if(female){
+            sf::Texture a;
+            if (!a.loadFromFile("images/blondehairgirl.png")) {
+                cout << "blonde hair girl did not load correctly" << endl;
+            }
+            sf::Sprite blondehairgirl;
+            blondehairgirl.setTexture(a);
+            blondehairgirl.setScale(sf::Vector2f(1.0f, 1.0f));
+            blondehairgirl.setPosition(580.f, 130.f);
+
+            window.draw(blondehairgirl);
+            h = "blonde";
+        }
+        else{
+            sf::Texture w;
+            if (!w.loadFromFile("images/blondehairguy.png")) {
+                cout << "blonde hair guy did not load correctly" << endl;
+            }
+            sf::Sprite blondehairguy;
+            blondehairguy.setTexture(w);
+            blondehairguy.setScale(sf::Vector2f(1.0f, 1.0f));
+            blondehairguy.setPosition(580.f, 130.f);
+
+            window.draw(blondehairguy);
+            h = "blonde";
+        }
     }
-    else if (tree.traits.at(2) == "TT") {
-        //black hair
+    else if (tree.traits.at(2) == "TT") {            //black
+        if(female){
+            sf::Texture d;
+            if (!d.loadFromFile("images/blackhairgirl.png")) {
+                cout << "black hair girl did not load correctly" << endl;
+            }
+            sf::Sprite blackhairgirl;
+            blackhairgirl.setTexture(d);
+            blackhairgirl.setScale(sf::Vector2f(1.0f, 1.0f));
+            blackhairgirl.setPosition(580.f, 130.f);
+
+            window.draw(blackhairgirl);
+            h = "black";
+        }
+        else{
+            sf::Texture f;
+            if (!f.loadFromFile("images/blackhairguy.png")) {
+                cout << "black hair guy did not load correctly" << endl;
+            }
+            sf::Sprite blackhairguy;
+            blackhairguy.setTexture(f);
+            blackhairguy.setScale(sf::Vector2f(1.0f, 1.0f));
+            blackhairguy.setPosition(580.f, 130.f);
+
+            window.draw(blackhairguy);
+            h = "black";
+        }
     }
-    else {
-        //red hair
+    else {                          //red
+        if(female){
+            sf::Texture n;
+            if (!n.loadFromFile("images/redhairgirl.png")) {
+                cout << "red hair girl did not load correctly" << endl;
+            }
+            sf::Sprite redhairgirl;
+            redhairgirl.setTexture(n);
+            redhairgirl.setScale(sf::Vector2f(1.0f, 1.0f));
+            redhairgirl.setPosition(580.f, 130.f);
+
+            window.draw(redhairgirl);
+            h = "red";
+        }
+        else{
+            sf::Texture v;
+            if (!v.loadFromFile("images/redhairguy.png")) {
+                cout << "red hair guy did not load correctly" << endl;
+            }
+            sf::Sprite redhairguy;
+            redhairguy.setTexture(v);
+            redhairguy.setScale(sf::Vector2f(1.0f, 1.0f));
+            redhairguy.setPosition(580.f, 130.f);
+
+            window.draw(redhairguy);
+            h = "red";
+        }
     }
-    ///personality
+    t = h + " hair";
+
+                                                                    ///personality///
     if (tree.traits.at(3) == "AG") {
-        //happy
+        sf::Texture c;
+        if (!c.loadFromFile("images/smile.jpeg")) {
+            cout << "smile did not load correctly" << endl;
+        }
+        sf::Sprite smile;
+        smile.setTexture(c);
+        smile.setScale(sf::Vector2f(0.1f, 0.1f));
+        smile.setPosition(610.f, 130.f);
+
+        window.draw(smile);
+        p = "happy";
     }
     else {
-        //sad
+        sf::Texture m;
+        if (!m.loadFromFile("images/sad.png")) {
+            cout << "sad did not load correctly" << endl;
+        }
+        sf::Sprite sad;
+        sad.setTexture(m);
+        sad.setScale(sf::Vector2f(1.0f, 1.0f));
+        sad.setPosition(580.f, 130.f);
+
+        window.draw(sad);
+        p = "sad";
     }
+    fo = p + " personality";
+
+    string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
+    A1 = "7620511: " + tree.traits.at(0);
+    A2 = "4959788: " + tree.traits.at(1);
+    A3 = "6549120: " + tree.traits.at(2);
+    A4 = "952399: " + tree.traits.at(3);
+
+    sf::Text dnaSequence;
+    dnaSequence.setFont(font);
+    dnaSequence.setCharacterSize(25);
+    dnaSequence.setFillColor(sf::Color::Black);
+    dnaSequence.setPosition(900, 250);
+    dnaSequence.setString(f + "\n" + A1 + "\n" + s + "\n" + A2 + "\n" + t + "\n" + A3 + "\n" + fo + "\n" + A4);
+
+    window.draw(dnaSequence);
+
 
 }
