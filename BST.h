@@ -22,7 +22,7 @@ public:
     vector<string> traits;
 
     Node* insertNode(Node* r, int rsid, string result);
-    //void searchBST(Node* r);
+    void searchBST(Node* r);
 
 };
 
