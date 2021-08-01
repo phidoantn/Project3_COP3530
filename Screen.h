@@ -7,6 +7,6 @@ public:
     void Draw(sf::RenderWindow& window, sf::Vector2i mousePosition);
     void TopButton(sf::RenderWindow& window);
     void BottomButton(sf::RenderWindow& window);
-    void readfile( BST& tree);
+    
 };
 
