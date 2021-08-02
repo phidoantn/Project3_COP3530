@@ -54,7 +54,7 @@ void Screen::doTheStuff() {
 void Screen::insertBST() {
 
     ifstream file;
-    file.open("dna.csv");
+    file.open("thirddnafile.csv");
 
     if (!file.is_open()) {
         cout << "dna file failure" << endl;
@@ -91,7 +91,7 @@ void Screen::insertBST() {
 void Screen::insertRBT()
 {
     fstream file;
-    file.open("dna.csv");
+    file.open("thirddnafile.csv");
 
     if (!file.is_open()) {
         cout << "rbt dna file failure" << endl;
@@ -341,7 +341,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         pinkshirt.setPosition(605.f, 230.f);
 
         window.draw(pinkshirt);
-        g = "Female";
+        g = "female";
     }
     sf::Texture j;
     if (!j.loadFromFile("images/jeans.png")) {
@@ -356,7 +356,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     f = "Gender: " + g;
 
 
-    ///eyes///
+                                                                ///eyes///
     if (tree.traits.at(1) == "CT") {
         sf::Texture h;
         if (!h.loadFromFile("images/BE.png")) {
@@ -395,13 +395,13 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         e = "black";
     } else {
         sf::Texture u;
-        if (!u.loadFromFile("images/greeneyes.jpeg")) {
+        if (!u.loadFromFile("images/greeneyes.png")) {
             cout << "green eyes did not load correctly" << endl;
         }
         sf::Sprite greeneyes;
         greeneyes.setTexture(u);
-        greeneyes.setScale(sf::Vector2f(1.0f, 1.0f));
-        greeneyes.setPosition(580.f, 130.f);
+        greeneyes.setScale(sf::Vector2f(0.015f, 0.015f));
+        greeneyes.setPosition(618.f, 130.f);
 
         window.draw(greeneyes);
         e = "green";
@@ -503,13 +503,13 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             h = "red";
         } else {
             sf::Texture v;
-            if (!v.loadFromFile("images/redhairguy.png")) {
+            if (!v.loadFromFile("images/redhair.png")) {
                 cout << "red hair guy did not load correctly" << endl;
             }
             sf::Sprite redhairguy;
             redhairguy.setTexture(v);
-            redhairguy.setScale(sf::Vector2f(1.0f, 1.0f));
-            redhairguy.setPosition(580.f, 130.f);
+            redhairguy.setScale(sf::Vector2f(0.14f, 0.14f));
+            redhairguy.setPosition(615.f, 80.f);
 
             window.draw(redhairguy);
             h = "red";
