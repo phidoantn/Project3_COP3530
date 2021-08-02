@@ -5,10 +5,10 @@ using namespace std;
 
 NodeRB* RBT::insert(NodeRB* root, int rs, string n)
 {
+
     // insert empty tree
     if (root == nullptr)
     {
-        cout << "successful" << endl;
         NodeRB* node = new NodeRB(rs, n);
         node->color = black;
         root = node;
@@ -120,8 +120,22 @@ void RBT::rotateRight(NodeRB* node)
 
 
 }
-vector<string> RBT::searchRBT(NodeRB *r, vector<int> rsid) {
-
-
-    return vector<string>();
+void RBT::searchRBT(NodeRB *r, vector<int> rsid) {
+    int i = 0;
+    while (RBTtraits.size() < 4) {
+        if (r->rsid == rsid.at(i)) {
+            RBTtraits.push_back(r->nu);
+            i++;
+            r = root;
+            continue;
+        }
+        if (r->rsid < rsid.at(i)) {
+            r = r->right;
+            continue;
+        }
+        if (r->rsid > rsid.at(i)) {
+            r = r->left;
+            continue;
+        }
+    }
 }
