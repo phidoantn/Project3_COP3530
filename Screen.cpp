@@ -60,7 +60,7 @@ void Screen::doTheStuff() {
 void Screen::insertBST() {
 
     ifstream file;
-    file.open("thirddnafile.csv");
+    file.open("fourthdnafile.csv");
 
     if (!file.is_open()) {
         cout << "dna file failure" << endl;
@@ -97,7 +97,7 @@ void Screen::insertBST() {
 void Screen::insertRBT()
 {
     fstream file;
-    file.open("thirddnafile.csv");
+    file.open("fourthdnafile.csv");
 
     if (!file.is_open()) {
         cout << "rbt dna file failure" << endl;
@@ -390,13 +390,13 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         e = "blue";
     } else if (tree.traits.at(1) == "TT") {
         sf::Texture g;
-        if (!g.loadFromFile("images/blackeyes.jpeg")) {
+        if (!g.loadFromFile("images/blackeyes.png")) {
             cout << "black eyes did not load correctly" << endl;
         }
         sf::Sprite blackeyes;
         blackeyes.setTexture(g);
-        blackeyes.setScale(sf::Vector2f(1.0f, 1.0f));
-        blackeyes.setPosition(580.f, 130.f);
+        blackeyes.setScale(sf::Vector2f(0.037f, 0.037f));
+        blackeyes.setPosition(610.f, 125.f);
 
         window.draw(blackeyes);
         e = "black";
@@ -416,17 +416,17 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     s = "Eyes: " + e;
 
 
-    ///hair///
+                                                                         ///hair///
     if (tree.traits.at(2) == "GG") {            //brown
         if (female) {
             sf::Texture z;
-            if (!z.loadFromFile("images/brownhairgirl.png")) {
+            if (!z.loadFromFile("images/brownhair.png")) {
                 cout << "brown hair girl did not load correctly" << endl;
             }
             sf::Sprite brownhairgirl;
             brownhairgirl.setTexture(z);
-            brownhairgirl.setScale(sf::Vector2f(0.5f, 0.5f));
-            brownhairgirl.setPosition(600.f, 100.f);
+            brownhairgirl.setScale(sf::Vector2f(0.3f, 0.3f));
+            brownhairgirl.setPosition(565.f, 65.f);
 
             window.draw(brownhairgirl);
             h = "brown";
