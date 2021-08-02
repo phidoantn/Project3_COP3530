@@ -351,13 +351,13 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         g = "female";
     }
     sf::Texture j;
-    if (!j.loadFromFile("images/jeans.png")) {
+    if (!j.loadFromFile("images/bluejeans.png")) {
         cout << "jeans did not load correctly" << endl;
     }
     sf::Sprite jeans;
     jeans.setTexture(j);
-    jeans.setScale(sf::Vector2f(0.33f, 0.33f));
-    jeans.setPosition(512.f, 380.f);
+    jeans.setScale(sf::Vector2f(1.5f, 1.5f));
+    jeans.setPosition(520.f, 380.f);
 
     window.draw(jeans);
     f = "Gender: " + g;
