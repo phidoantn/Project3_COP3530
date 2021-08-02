@@ -19,6 +19,8 @@ int main() {
     double elapsedRSTInsert = (double)(bstStop - rstStop) / CLOCKS_PER_SEC;
     send.setrbtTime(elapsedRSTInsert);
 
+    send.doTheStuff();
+
     sf::RenderWindow window(sf::VideoMode(1350, 750), "cop3530 project3");
     sf::Vector2i mousePositionSave;
 
