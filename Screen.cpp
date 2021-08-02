@@ -13,6 +13,7 @@ using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
     this->rbtTime = 0;
+    this->fileToLoad = "";
 
     /// trait : rsid
     ///gender : 7620511
@@ -60,7 +61,7 @@ void Screen::doTheStuff() {
 void Screen::insertBST() {
 
     ifstream file;
-    file.open("fourthdnafile.csv");
+    file.open(fileToLoad);
 
     if (!file.is_open()) {
         cout << "dna file failure" << endl;
@@ -91,7 +92,7 @@ void Screen::insertBST() {
         iter++;
     }
     file.close();
-    cout << "count: " << count << endl;
+   // cout << "count: " << count << endl;
 }
 
 void Screen::insertRBT()
@@ -131,7 +132,7 @@ void Screen::insertRBT()
     file.close();
 }
 
-void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
+void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &count) {
     sf::Font font;
     bstStartAgain = clock();
     rbtStartAgain = clock();
@@ -210,13 +211,52 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
     //if top button clicked
     if (mousePosition.y > heightB && mousePosition.y < heightT && mousePosition.x > widthL && mousePosition.x < widthR) {
         TopButton(window);
+        buttonPress = true;
     }
     //if bottom button clicked
     if (mousePosition.y > heightBB && mousePosition.y < heightTB && mousePosition.x > widthLB && mousePosition.x < widthRB) {
         BottomButton(window);
+        buttonPress = true;
+    }
+    //invisible reset button
+    if(mousePosition.y > 0 && mousePosition.y < 50 && mousePosition.x > 0 && mousePosition.x < 50 && count == 0 && buttonPress == true){
+        Reset(window);
+        //count++;
+        buttonPress = false;
     }
 
+}
 
+void Screen::Initial(string file){
+    fileToLoad = "";
+    fileToLoad = file;
+
+    if(tree.root != nullptr){
+        tree.deleteTree(tree.root);
+        tree.root = nullptr;
+        tree.traits.clear();
+    }
+    clock_t bstStart;
+    insertBST();
+    clock_t bstStop;
+    double elapsedBSTInsert = (double) (bstStart - bstStop) / CLOCKS_PER_SEC;
+    setbstTime(elapsedBSTInsert);
+
+    //send.insertRBT(); ///uncomment when rbt is fixed
+    clock_t rstStop;
+    double elapsedRSTInsert = (double) (bstStop - rstStop) / CLOCKS_PER_SEC;
+    setrbtTime(elapsedRSTInsert);
+
+    doTheStuff();
+}
+
+void Screen::Reset(sf::RenderWindow &window){
+    cout << "Enter file to load :" << endl;
+    string enter;
+    cin >> enter;
+
+    enter += ".csv";
+    Initial(enter);
 }
 
 void Screen::TopButton(sf::RenderWindow& window) {
