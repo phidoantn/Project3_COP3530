@@ -11,6 +11,7 @@ using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
     this->rbtTime = 0;
+
     /// trait : rsid
     ///gender : 7620511
     ///eyes : 4959788
@@ -236,7 +237,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
     clock_t stopRst = clock();
     tree.searchBST(tree.root, searchThese);
     clock_t stopBst = clock();
-    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t startBstA = clock();
 
     string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
@@ -312,7 +313,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     clock_t bstStop = clock();
 
 
-    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t rbtEnd = clock();
 
 //    ///to make sure the trait vectors are the same
