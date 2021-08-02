@@ -46,6 +46,42 @@ void Screen::insertBST() {
     file.close();
 }
 
+void Screen::insertRBT()
+{
+    fstream file;
+    file.open("files/dna.csv");
+
+    if (!file.is_open()) {
+        cout << "dna file failure" << endl;
+    }
+
+    string line, rsid, ch, pos, result;
+    int iter = 0;
+
+    //gets line, reach each line
+    while (getline(file, line) && iter < 30) {
+
+        istringstream stream(line);
+
+        //obmit first 13 lines 
+        if (iter > 12) {
+            getline(stream, rsid, ',');
+            getline(stream, ch, ',');
+            getline(stream, pos, ',');
+            getline(stream, result, '"');
+
+            //don't need the rs, just want the integer part
+            string withoutRS = rsid.substr(3, rsid.length());
+
+            // push into the tree
+            RBTtree.root = RBTtree.insert(RBTtree.root, stoi(withoutRS), result);
+        }
+        iter++;
+    }
+
+    file.close();
+}
+
 void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
     sf::Font font;
     if (!font.loadFromFile("font.otf")) {
@@ -161,7 +197,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     /// dna helix ///
     sf::Texture tex;
-    if (!tex.loadFromFile("dnahelix.png")) {
+    if (!tex.loadFromFile("files/dnahelix.png")) {
         cout << "helix did not load correctly" << endl;
     }
     sf::Sprite helix;
@@ -254,7 +290,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     f = g + " gender";
 
 
-                                                                    ///eyes///
+    ///eyes///
     if (tree.traits.at(1) == "CT") {
         sf::Texture h;
         if (!h.loadFromFile("images/browneyes.jpeg")) {
@@ -310,9 +346,9 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     s = e + " eyes";
 
 
-                                                                    ///hair///
+    ///hair///
     if (tree.traits.at(2) == "GG") {            //brown
-        if(female){
+        if (female) {
             sf::Texture z;
             if (!z.loadFromFile("images/brownhairgirl.png")) {
                 cout << "brown hair girl did not load correctly" << endl;
@@ -325,7 +361,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(brownhairgirl);
             h = "brown";
         }
-        else{
+        else {
             sf::Texture q;
             if (!q.loadFromFile("images/brownhairguy.png")) {
                 cout << "brown hair guy did not load correctly" << endl;
@@ -340,7 +376,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         }
     }
     else if (tree.traits.at(2) == "GT") {       //blonde
-        if(female){
+        if (female) {
             sf::Texture a;
             if (!a.loadFromFile("images/blondehairgirl.png")) {
                 cout << "blonde hair girl did not load correctly" << endl;
@@ -353,7 +389,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(blondehairgirl);
             h = "blonde";
         }
-        else{
+        else {
             sf::Texture w;
             if (!w.loadFromFile("images/blondehairguy.png")) {
                 cout << "blonde hair guy did not load correctly" << endl;
@@ -368,7 +404,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         }
     }
     else if (tree.traits.at(2) == "TT") {            //black
-        if(female){
+        if (female) {
             sf::Texture d;
             if (!d.loadFromFile("images/blackhairgirl.png")) {
                 cout << "black hair girl did not load correctly" << endl;
@@ -381,7 +417,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(blackhairgirl);
             h = "black";
         }
-        else{
+        else {
             sf::Texture f;
             if (!f.loadFromFile("images/blackhairguy.png")) {
                 cout << "black hair guy did not load correctly" << endl;
@@ -396,7 +432,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         }
     }
     else {                          //red
-        if(female){
+        if (female) {
             sf::Texture n;
             if (!n.loadFromFile("images/redhairgirl.png")) {
                 cout << "red hair girl did not load correctly" << endl;
@@ -409,7 +445,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(redhairgirl);
             h = "red";
         }
-        else{
+        else {
             sf::Texture v;
             if (!v.loadFromFile("images/redhairguy.png")) {
                 cout << "red hair guy did not load correctly" << endl;
@@ -425,7 +461,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     }
     t = h + " hair";
 
-                                                                    ///personality///
+    ///personality///
     if (tree.traits.at(3) == "AG") {
         sf::Texture c;
         if (!c.loadFromFile("images/smile.jpeg")) {
