@@ -4,9 +4,14 @@
 #include "RBT.h"
 #include <time.h>
 class Screen {
+private:
+    double bstTime;
+    double rbtTime;
 public:
     BST tree;
     RBT RBTtree;
+    clock_t bstStartAgain;
+    clock_t rbtStartAgain;
     Screen();
     void insertBST();
     void insertRBT();
@@ -14,9 +19,13 @@ public:
     void TopButton(sf::RenderWindow &window);
     void BottomButton(sf::RenderWindow &window);
 
-    clock_t bstStart;
-    clock_t rbtStart;
+    void setbstTime(double b);
+    void setrbtTime(double r);
+
 };
+
+
+
 
 
 
