@@ -140,6 +140,6 @@ void RBT::searchRBT(NodeRB* r,vector<int> searchThese)
 				continue;
 			}
 		}
-	}
+	
 
 }
