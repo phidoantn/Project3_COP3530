@@ -12,6 +12,7 @@ public:
     RBT RBTtree;
     clock_t bstStartAgain;
     clock_t rbtStartAgain;
+    vector<int> searchThese;
     Screen();
     void insertBST();
     void insertRBT();
