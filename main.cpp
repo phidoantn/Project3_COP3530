@@ -1,11 +1,27 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Screen.h"
+#include <fstream>
+#include <sstream>
+#include <time.h>
 
 int main() {
     Screen send;
+
+    clock_t bstStart;
+    send.insertBST();
+    clock_t bstStop;
+    double elapsedBSTInsert = (double)(bstStart - bstStop) / CLOCKS_PER_SEC;
+    send.setbstTime(elapsedBSTInsert);
+
+    //send.insertRBT(); ///uncomment when rbt is fixed
+    clock_t rstStop;
+    double elapsedRSTInsert = (double)(bstStop - rstStop) / CLOCKS_PER_SEC;
+    send.setrbtTime(elapsedRSTInsert);
+
     sf::RenderWindow window(sf::VideoMode(1350, 750), "cop3530 project3");
     sf::Vector2i mousePositionSave;
+
     while (window.isOpen()) {
         sf::Event event;
 
