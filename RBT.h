@@ -32,6 +32,7 @@ class RBT {
 
 public:
 	NodeRB* root;
+	vector<string> RBTtraits;
 	RBT() :root(nullptr) {};
 	NodeRB* insert(NodeRB* root, int rs, string n);
 	void fixInsert(NodeRB* node);
@@ -40,5 +41,7 @@ public:
 
 	void rotateLeft(NodeRB* node);
 	void rotateRight(NodeRB* node);
+	
+	vector<string> searchRBT(NodeRB* r, vector<int> rsid);
 
 };
