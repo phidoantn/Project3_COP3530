@@ -332,17 +332,27 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         g = "male";
     } else {
         sf::Texture b;
-        if (!b.loadFromFile("images/pinkshirt.png")) {
+        if (!b.loadFromFile("images/yellow.png")) {
             cout << "pink shirt did not load correctly" << endl;
         }
         sf::Sprite pinkshirt;
         pinkshirt.setTexture(b);
-        pinkshirt.setScale(sf::Vector2f(1.0f, 1.0f));
-        pinkshirt.setPosition(580.f, 130.f);
+        pinkshirt.setScale(sf::Vector2f(0.15f, 0.15f));
+        pinkshirt.setPosition(605.f, 230.f);
 
         window.draw(pinkshirt);
         g = "Female";
     }
+    sf::Texture j;
+    if (!j.loadFromFile("images/jeans.png")) {
+        cout << "jeans did not load correctly" << endl;
+    }
+    sf::Sprite jeans;
+    jeans.setTexture(j);
+    jeans.setScale(sf::Vector2f(0.33f, 0.33f));
+    jeans.setPosition(512.f, 380.f);
+
+    window.draw(jeans);
     f = "Gender: " + g;
 
 
@@ -359,15 +369,15 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
         window.draw(browneyes);
         e = "brown";
-    } else if (tree.traits.at(1) == "CC") {
+    } else if (tree.traits.at(1) == "GG") {
         sf::Texture y;
-        if (!y.loadFromFile("images/blueeyes.jpeg")) {
+        if (!y.loadFromFile("images/blue.png")) {
             cout << "blue eyes did not load correctly" << endl;
         }
         sf::Sprite blueeyes;
         blueeyes.setTexture(y);
-        blueeyes.setScale(sf::Vector2f(1.0f, 1.0f));
-        blueeyes.setPosition(580.f, 130.f);
+        blueeyes.setScale(sf::Vector2f(0.01f, 0.01f));
+        blueeyes.setPosition(622.f, 127.f);
 
         window.draw(blueeyes);
         e = "blue";
@@ -426,7 +436,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(brownhairguy);
             h = "brown";
         }
-    } else if (tree.traits.at(2) == "GT") {       //blonde
+    } else if (tree.traits.at(2) == "GG") {       //blonde
         if (female) {
             sf::Texture a;
             if (!a.loadFromFile("images/blondehairgirl.png")) {
@@ -481,13 +491,13 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     } else {                          //red
         if (female) {
             sf::Texture n;
-            if (!n.loadFromFile("images/redhairgirl.png")) {
+            if (!n.loadFromFile("images/red.png")) {
                 cout << "red hair girl did not load correctly" << endl;
             }
             sf::Sprite redhairgirl;
             redhairgirl.setTexture(n);
-            redhairgirl.setScale(sf::Vector2f(1.0f, 1.0f));
-            redhairgirl.setPosition(580.f, 130.f);
+            redhairgirl.setScale(sf::Vector2f(0.45f, 0.45f));
+            redhairgirl.setPosition(593.f, 50.f);
 
             window.draw(redhairgirl);
             h = "red";
