@@ -8,16 +8,14 @@ NodeRB* RBT::insert(NodeRB* root, int rs, string n)
 	// insert empty tree
 	if (root == nullptr)
 	{
-		cout << "successful" << endl;
 		NodeRB* node = new NodeRB(rs, n);
 		node->color = black;
 		root = node;
-		delete node;
 		return root;
 	}
 
 	// traverse and insert left
-	else if (rs < root->rsid)
+	if (rs < root->rsid)
 	{
 		root->left = insert(root->left, rs, n);
 		root->left->parent = root;
@@ -99,7 +97,7 @@ NodeRB* RBT::getUncle(NodeRB* node)
 	}
 	else
 		return nullptr;
-	
+
 }
 
 
@@ -121,25 +119,49 @@ void RBT::rotateRight(NodeRB* node)
 
 }
 
-void RBT::searchRBT(NodeRB* r,vector<int> searchThese)
+void RBT::searchRBT(NodeRB* r, vector<int> searchThese)
 {
-		int i = 0;
-		while (traits.size() < 4) {
-			if (r->rsid == searchThese.at(i)) {
-				traits.push_back(r->nu);
-				i++;
-				r = root;
-				continue;
-			}
-			if (r->rsid < searchThese.at(i)) {
-				r = r->right;
-				continue;
-			}
-			if (r->rsid > searchThese.at(i)) {
-				r = r->left;
-				continue;
-			}
+	int i = 0;
+	while (traits.size() < 4) {
+		if (r->rsid == searchThese.at(i)) {
+			traits.push_back(r->nu);
+			i++;
+			r = root;
+			continue;
 		}
-	
+		if (r->rsid < searchThese.at(i)) {
+			r = r->right;
+			continue;
+		}
+		if (r->rsid > searchThese.at(i)) {
+			r = r->left;
+			continue;
+		}
+	}
+}
 
+void RBT::printIn(NodeRB* root)
+{
+	if (root == nullptr)
+		return;
+	else
+	{
+		printIn(root->left);
+		cout << root->rsid << " ";
+		printIn(root->right);
+
+	}
+}
+
+void RBT::printPre(NodeRB* root)
+{
+	if (root == nullptr)
+		return;
+	else
+	{
+		cout << root->rsid << " ";
+		printIn(root->left);
+		printIn(root->right);
+
+	}
 }
