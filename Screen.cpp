@@ -30,7 +30,27 @@ void Screen::setbstTime(double b) {
 void Screen::setrbtTime(double r) {
     this->rbtTime = r;
 }
+void Screen::doTheStuff() {
+    ///get vector of traits///
 
+    clock_t rstStop = clock();
+    tree.searchBST(tree.root, searchThese);
+    clock_t bstStop = clock();
+    double elapsed = (double)(rstStop - bstStop) / CLOCKS_PER_SEC;
+    bstTime += elapsed;                          //bstTime originally -> time to build tree + time to search tree = new bstTime
+
+    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    clock_t rbtEnd = clock();
+    double relapsed = (double)(bstStop - rbtEnd) / CLOCKS_PER_SEC;
+    rbtTime += relapsed;                        //rbtTime originally -> time to build tree + time to search tree = new rstTime
+
+//    ///to make sure the trait vectors are the same
+//    for(int i = 0; i < tree.traits.size(); i++){
+//        if(tree.traits.at(i) != RBTtree.RBTtraits.at(i)){
+//            cout << "the bst and rbt tree search did not return the same thing" << endl;
+//        }
+//    }
+}
 void Screen::insertBST() {
 
     ifstream file;
@@ -213,7 +233,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
     /// sub-subtitles ///
     sf::Text ss1;
     ss1.setFont(font);
-    ss1.setString("Traits:");
+    ss1.setString("DNA Sequence:");
     ss1.setCharacterSize(35);
     ss1.setFillColor(sf::Color::Black);
     ss1.setPosition(850.f, 140.f);
@@ -233,32 +253,18 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     window.draw(helix);
 
-    tree.traits.clear();            //in case the other button was pressed before this
-    clock_t stopRst = clock();
-    tree.searchBST(tree.root, searchThese);
-    clock_t stopBst = clock();
-    RBTtree.searchRBT(RBTtree.root, searchThese);
-    clock_t startBstA = clock();
-
     string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
     A1 = "7620511: " + tree.traits.at(0);
     A2 = "4959788: " + tree.traits.at(1);
     A3 = "6549120: " + tree.traits.at(2);
     A4 = "952399: " + tree.traits.at(3);
 
-    clock_t end = clock();
-    double elapsedBST = (double)((bstStartAgain - stopBst) + (startBstA - end)) / (CLOCKS_PER_SEC * 10000); // millisecond
-    double finalBST = bstTime + elapsedBST;
-    double elapsedRBT = (double)((rbtStartAgain - stopRst) + (stopBst - end)) / (CLOCKS_PER_SEC / 10000);
-    double finalrst = rbtTime + elapsedRBT;
-    cout<<fixed<<setprecision(2);
-
     sf::Text basePairs;
     basePairs.setFont(font);
     basePairs.setCharacterSize(25);
     basePairs.setPosition(860, 225);
     basePairs.setFillColor(sf::Color::Black);
-    basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalBST) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
+    basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(bstTime) + "\n" + "\n" + "TIME WITH RBT: " + to_string(rbtTime) + "\n");
 
     window.draw(basePairs);
 }
@@ -284,7 +290,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     /// sub-subtitles ///
     sf::Text ss2;
     ss2.setFont(font);
-    ss2.setString("DNA Sequence:");
+    ss2.setString("Traits: ");
     ss2.setCharacterSize(35);
     ss2.setFillColor(sf::Color::Black);
     ss2.setPosition(850.f, 140.f);
@@ -305,24 +311,6 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
     window.draw(body);
 
-
-    ///get vector of traits///
-
-    clock_t rstStop = clock();
-    tree.searchBST(tree.root, searchThese);
-    clock_t bstStop = clock();
-
-
-    RBTtree.searchRBT(RBTtree.root, searchThese);
-    clock_t rbtEnd = clock();
-
-//    ///to make sure the trait vectors are the same
-//    for(int i = 0; i < tree.traits.size(); i++){
-//        if(tree.traits.at(i) != RBTtree.RBTtraits.at(i)){
-//            cout << "the bst and rbt tree search did not return the same thing" << endl;
-//        }
-//    }
-
     //use the bst vector to display sprites, but the time should be the same bc the traits vectors are the same size and should hold the same stuff
 
     string f, s, t, fo;         //specific trait + trait
@@ -331,19 +319,18 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     bool female = true;
     if (tree.traits.at(0) == "GG") {  //"boy"
         sf::Texture s;
-        if (!s.loadFromFile("images/yy.jpg")) {
+        if (!s.loadFromFile("images/shirt.png")) {
             cout << "blue shirt did not load correctly" << endl;
         }
         sf::Sprite blueshirt;
         blueshirt.setTexture(s);
-        blueshirt.setScale(sf::Vector2f(0.1f, 0.1f));
-        blueshirt.setPosition(475.f, 200.f);
+        blueshirt.setScale(sf::Vector2f(1.0f, 1.0f));
+        blueshirt.setPosition(562.f, 186.f);
         female = false;
 
         window.draw(blueshirt);
         g = "male";
-    }
-    else {
+    } else {
         sf::Texture b;
         if (!b.loadFromFile("images/pinkshirt.png")) {
             cout << "pink shirt did not load correctly" << endl;
@@ -356,24 +343,23 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         window.draw(pinkshirt);
         g = "Female";
     }
-    f = g + " gender";
+    f = "Gender: " + g;
 
 
     ///eyes///
     if (tree.traits.at(1) == "CT") {
         sf::Texture h;
-        if (!h.loadFromFile("images/browneyes.jpeg")) {
+        if (!h.loadFromFile("images/BE.png")) {
             cout << "brown eyes did not load correctly" << endl;
         }
         sf::Sprite browneyes;
         browneyes.setTexture(h);
-        browneyes.setScale(sf::Vector2f(0.2f, 0.2f));
-        browneyes.setPosition(580.f, 130.f);
+        browneyes.setScale(sf::Vector2f(0.01f, 0.01f));
+        browneyes.setPosition(622.f, 127.f);
 
         window.draw(browneyes);
         e = "brown";
-    }
-    else if (tree.traits.at(1) == "CC") {
+    } else if (tree.traits.at(1) == "CC") {
         sf::Texture y;
         if (!y.loadFromFile("images/blueeyes.jpeg")) {
             cout << "blue eyes did not load correctly" << endl;
@@ -385,8 +371,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
         window.draw(blueeyes);
         e = "blue";
-    }
-    else if (tree.traits.at(1) == "TT") {
+    } else if (tree.traits.at(1) == "TT") {
         sf::Texture g;
         if (!g.loadFromFile("images/blackeyes.jpeg")) {
             cout << "black eyes did not load correctly" << endl;
@@ -398,8 +383,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
         window.draw(blackeyes);
         e = "black";
-    }
-    else {
+    } else {
         sf::Texture u;
         if (!u.loadFromFile("images/greeneyes.jpeg")) {
             cout << "green eyes did not load correctly" << endl;
@@ -412,7 +396,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         window.draw(greeneyes);
         e = "green";
     }
-    s = e + " eyes";
+    s = "Eyes: " + e;
 
 
     ///hair///
@@ -429,8 +413,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
             window.draw(brownhairgirl);
             h = "brown";
-        }
-        else {
+        } else {
             sf::Texture q;
             if (!q.loadFromFile("images/brownhairguy.png")) {
                 cout << "brown hair guy did not load correctly" << endl;
@@ -443,8 +426,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(brownhairguy);
             h = "brown";
         }
-    }
-    else if (tree.traits.at(2) == "GT") {       //blonde
+    } else if (tree.traits.at(2) == "GT") {       //blonde
         if (female) {
             sf::Texture a;
             if (!a.loadFromFile("images/blondehairgirl.png")) {
@@ -457,8 +439,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
             window.draw(blondehairgirl);
             h = "blonde";
-        }
-        else {
+        } else {
             sf::Texture w;
             if (!w.loadFromFile("images/blondehairguy.png")) {
                 cout << "blonde hair guy did not load correctly" << endl;
@@ -471,8 +452,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(blondehairguy);
             h = "blonde";
         }
-    }
-    else if (tree.traits.at(2) == "TT") {            //black
+    } else if (tree.traits.at(2) == "TT") {            //black
         if (female) {
             sf::Texture d;
             if (!d.loadFromFile("images/blackhairgirl.png")) {
@@ -485,8 +465,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
             window.draw(blackhairgirl);
             h = "black";
-        }
-        else {
+        } else {
             sf::Texture f;
             if (!f.loadFromFile("images/blackhairguy.png")) {
                 cout << "black hair guy did not load correctly" << endl;
@@ -499,8 +478,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             window.draw(blackhairguy);
             h = "black";
         }
-    }
-    else {                          //red
+    } else {                          //red
         if (female) {
             sf::Texture n;
             if (!n.loadFromFile("images/redhairgirl.png")) {
@@ -513,8 +491,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
             window.draw(redhairgirl);
             h = "red";
-        }
-        else {
+        } else {
             sf::Texture v;
             if (!v.loadFromFile("images/redhairguy.png")) {
                 cout << "red hair guy did not load correctly" << endl;
@@ -528,23 +505,22 @@ void Screen::BottomButton(sf::RenderWindow& window) {
             h = "red";
         }
     }
-    t = h + " hair";
+    t = "Hair: " + h;
 
     ///personality///
     if (tree.traits.at(3) == "AG") {
         sf::Texture c;
-        if (!c.loadFromFile("images/smile.jpeg")) {
+        if (!c.loadFromFile("images/rr.png")) {
             cout << "smile did not load correctly" << endl;
         }
         sf::Sprite smile;
         smile.setTexture(c);
-        smile.setScale(sf::Vector2f(0.1f, 0.1f));
-        smile.setPosition(610.f, 130.f);
+        smile.setScale(sf::Vector2f(0.02f, 0.02f));
+        smile.setPosition(637.f, 150.f);
 
         window.draw(smile);
         p = "happy";
-    }
-    else {
+    } else {
         sf::Texture m;
         if (!m.loadFromFile("images/sad.png")) {
             cout << "sad did not load correctly" << endl;
@@ -557,27 +533,15 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         window.draw(sad);
         p = "sad";
     }
-    fo = p + " personality";
-
-    clock_t end = clock();
-    double elapsedBST = (double)((bstStartAgain - bstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 10000); // millisecond
-    double finalbst = bstTime + elapsedBST;
-    double elapsedRBT = (double)((rbtStartAgain - rstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 10000);
-    double finalrst = rbtTime + elapsedRBT;
-    cout<<fixed<<setprecision(2);
+    fo = "Mood/Personality: " + p;
 
     sf::Text dnaSequence;
     dnaSequence.setFont(font);
     dnaSequence.setCharacterSize(25);
     dnaSequence.setFillColor(sf::Color::Black);
     dnaSequence.setPosition(860, 225);
-    dnaSequence.setString(f + "\n" + "\n" + s + "\n" + "\n" + t  + "\n" + "\n" + fo + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
+    dnaSequence.setString(f + "\n" + "\n" + s + "\n" + "\n" + t + "\n" + "\n" + fo + "\n" + "\n" + "TIME WITH BST: " +
+                          to_string(bstTime) + "\n" + "\n" + "TIME WITH RBT: " + to_string(rbtTime) + "\n");
 
     window.draw(dnaSequence);
-
-
 }
-
-
-
-
