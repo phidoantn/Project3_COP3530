@@ -40,63 +40,67 @@ void RBT::fixInsert(NodeRB* node)
 	// if node is tree root then it's black
 	if (node->parent == nullptr) {
 		node->color = black;
+		
 		return;
 	}
 
 	// if parent is black then return node
-	if (node->parent->color == black)
+	else if (node->parent->color == black) {
 		return;
+	}
+	else {
+		// -----------fix tree if parent is red
 
-	// -----------fix tree if parent is red
+		// geting node's family
+		NodeRB* parent = node->parent;
+		NodeRB* grand = node->parent->parent;
+		NodeRB* uncle = getUncle(node);
 
-	// geting node's family
-	NodeRB* parent = node->parent;
-	NodeRB* grand = node->parent->parent;
-	NodeRB* uncle = getUncle(node);
+	
 
-	// red parent has red sibling
-	if (uncle != nullptr && uncle->color == red) {
-		parent->color = uncle->color = black;
+		// red parent has red sibling
+		if (uncle != nullptr && uncle->color == red) {
+			parent->color = uncle->color = black;
+			grand->color = red;
+			fixInsert(grand);
+			return;
+		}
+
+		// no red uncle: left right
+		if (node == parent->right && parent == grand->left) {
+			rotateLeft(parent);
+			node = parent;
+			parent = node->parent;
+
+
+		}
+
+		// right left imbalance
+		else if (node == parent->left && parent == grand->right) {
+			rotateRight(parent);
+			node = parent;
+			parent = node->parent;
+
+		}
+
+		parent->color = black;
 		grand->color = red;
-		fixInsert(parent);
-		return;
+		if (node == parent->left)
+			rotateRight(grand);
+		else
+			rotateLeft(grand);
 	}
-
-	// no red uncle: left right
-	if (node == parent->right && parent == grand->left) {
-		rotateLeft(parent);
-		NodeRB* temp = parent;
-		parent = temp->parent;
-
-	}
-
-	// right left imbalance
-	else if (node == parent->left && parent == grand->right) {
-		rotateRight(parent);
-		NodeRB* temp = parent;
-		parent = temp->parent;
-	}
-
-	parent->color = black;
-	grand->color = red;
-	if (node == parent->left)
-		rotateRight(grand);
-	else
-		rotateLeft(grand);
 }
 
 NodeRB* RBT::getUncle(NodeRB* node)
 {
-
-	if (node->parent->parent != nullptr) {
-		// if parent is left then return the right child of grand, otherwise return left child.
-		if (node->parent == node->parent->parent->left)
-			return node->parent->parent->right;
-		else
-			node->parent->parent->left;
-	}
+	// if parent is left then return the right child of grand, otherwise return left child.
+	if (node->parent == node->parent->parent->left)
+		return node->parent->parent->right;
 	else
-		return nullptr;
+		return node->parent->parent->left;
+
+
 
 }
 
@@ -107,14 +111,17 @@ void RBT::rotateLeft(NodeRB* node)
 	NodeRB* newParent = node->right;
 	newParent->left = node;
 	node->right = grandChild;
+	
 }
 
-void RBT::rotateRight(NodeRB* node)
+void
+RBT::rotateRight(NodeRB* node)
 {
 	NodeRB* grandChild = node->left->right;
 	NodeRB* newParent = node->left;
 	newParent->right = node;
 	node->left = grandChild;
+	
 
 
 }
@@ -147,7 +154,7 @@ void RBT::printIn(NodeRB* root)
 	else
 	{
 		printIn(root->left);
-		cout << root->rsid << " ";
+	
 		printIn(root->right);
 
 	}
