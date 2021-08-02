@@ -8,8 +8,17 @@
 #include <time.h>
 using namespace std;
 Screen::Screen() {
-
+    this->bstTime = 0;
+    this->rbtTime = 0;
 }
+void Screen::setbstTime(double b) {
+    this->bstTime = b;
+}
+
+void Screen::setrbtTime(double r) {
+    this->rbtTime = r;
+}
+
 void Screen::insertBST() {
 
     ifstream file;
@@ -43,22 +52,22 @@ void Screen::insertBST() {
         }
         iter++;
     }
-    cout << "count: " << count << endl;
     file.close();
+    cout << "count: " << count << endl;
 }
 
 void Screen::insertRBT()
 {
     fstream file;
-    file.open("files/dna.csv");
+    file.open("dna.csv");
 
     if (!file.is_open()) {
-        cout << "dna file failure" << endl;
+        cout << "rbt dna file failure" << endl;
     }
 
     string line, rsid, ch, pos, result;
     int iter = 0;
-
+    int rbtCount = 0;   //debug
     //gets line, reach each line
     while (getline(file, line) && iter < 30) {
 
@@ -76,17 +85,18 @@ void Screen::insertRBT()
 
             // push into the tree
             RBTtree.root = RBTtree.insert(RBTtree.root, stoi(withoutRS), result);
+            rbtCount++;
         }
         iter++;
     }
-
+    cout << "rbt count: " << rbtCount << endl;
     file.close();
 }
 
 void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
     sf::Font font;
-    bstStart = clock();
-    rbtStart = clock();
+    bstStartAgain = clock();
+    rbtStartAgain = clock();
 
     if (!font.loadFromFile("font.otf")) {
         cout << "error loading font" << endl;
@@ -201,7 +211,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     /// dna helix ///
     sf::Texture tex;
-    if (!tex.loadFromFile("files/dnahelix.png")) {
+    if (!tex.loadFromFile("images/dnahelix.png")) {
         cout << "helix did not load correctly" << endl;
     }
     sf::Sprite helix;
@@ -245,7 +255,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
     /// man/woman ///
     sf::Texture tex2;
-    if (!tex2.loadFromFile("body.png")) {
+    if (!tex2.loadFromFile("images/body.png")) {
         cout << "head did not load correctly" << endl;
     }
     sf::Sprite body;
@@ -266,18 +276,24 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     searchThese.push_back(6549120);
     searchThese.push_back(952399);
 
-    ///build trees + get vector of traits///
+    ///get vector of traits///
 
-    clock_t rbtStop = clock();
-    insertBST();
+    clock_t rstStop = clock();
     tree.searchBST(tree.root, searchThese);
-
     clock_t bstStop = clock();
-    insertRBT();
-    RBTtree.searchRBT(RBTtree.root, searchThese);
-    clock_t bstStartAgain = clock();
 
 
+    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    clock_t rbtEnd = clock();
+
+//    ///to make sure the trait vectors are the same
+//    for(int i = 0; i < tree.traits.size(); i++){
+//        if(tree.traits.at(i) != RBTtree.RBTtraits.at(i)){
+//            cout << "the bst and rbt tree search did not return the same thing" << endl;
+//        }
+//    }
+
+    //use the bst vector to display sprites, but the time should be the same bc the traits vectors are the same size and should hold the same stuff
 
     string f, s, t, fo;         //specific trait + trait
     string g, e, h, p;          //specific trait (to be added to string above
@@ -520,17 +536,23 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     A4 = "952399: " + tree.traits.at(3);
 
     clock_t end = clock();
-    double elapsedBST = (double)((bstStart - bstStop) + (bstStartAgain - end)) / CLOCKS_PER_SEC;
-    double elapsedRBT = (double)((rbtStart - rbtStop) + (bstStop - end)) / CLOCKS_PER_SEC;
+    double elapsedBST = (double)((bstStartAgain - bstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 1000); // millisecond
+    double finalbst = bstTime + elapsedBST;
+    double elapsedRBT = (double)((rbtStartAgain - rstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC / 10000);
+    double finalrst = rbtTime + elapsedRBT;
 
     sf::Text dnaSequence;
     dnaSequence.setFont(font);
     dnaSequence.setCharacterSize(25);
     dnaSequence.setFillColor(sf::Color::Black);
-    dnaSequence.setPosition(900, 250);
-    dnaSequence.setString(f + "\n" + A1 + "\n" + "\n" + s + "\n" + A2 + "\n" + "\n" + t + "\n" + A3 + "\n" + "\n" + fo + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(elapsedBST) + "\n" + "\n" + "TIME WITH RBT: " + to_string(elapsedRBT) + "\n");
+    dnaSequence.setPosition(860, 225);
+    dnaSequence.setString(f + "\n" + A1 + "\n" + "\n" + s + "\n" + A2 + "\n" + "\n" + t + "\n" + A3 + "\n" + "\n" + fo + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
 
     window.draw(dnaSequence);
 
 
 }
+
+
+
+
