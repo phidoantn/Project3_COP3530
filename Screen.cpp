@@ -11,6 +11,16 @@ using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
     this->rbtTime = 0;
+    /// trait : rsid
+    ///gender : 7620511
+    ///eyes : 4959788
+    ///hair : 6549120
+    ///personality : 952399
+
+    searchThese.push_back(7620511);
+    searchThese.push_back(4959788);
+    searchThese.push_back(6549120);
+    searchThese.push_back(952399);
 }
 void Screen::setbstTime(double b) {
     this->bstTime = b;
@@ -222,10 +232,11 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     window.draw(helix);
 
+    tree.traits.clear();            //in case the other button was pressed before this
     clock_t stopRst = clock();
     tree.searchBST(tree.root, searchThese);
     clock_t stopBst = clock();
-    RBTtree.searchRBT(RBTtree.root, searchThese);
+    //RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t startBstA = clock();
 
     string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
@@ -236,7 +247,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     clock_t end = clock();
     double elapsedBST = (double)((bstStartAgain - stopBst) + (startBstA - end)) / (CLOCKS_PER_SEC * 10000); // millisecond
-    double finalbst = bstTime + elapsedBST;
+    double finalBST = bstTime + elapsedBST;
     double elapsedRBT = (double)((rbtStartAgain - stopRst) + (stopBst - end)) / (CLOCKS_PER_SEC / 10000);
     double finalrst = rbtTime + elapsedRBT;
     cout<<fixed<<setprecision(2);
@@ -246,7 +257,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
     basePairs.setCharacterSize(25);
     basePairs.setPosition(860, 225);
     basePairs.setFillColor(sf::Color::Black);
-    basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
+    basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalBST) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
 
     window.draw(basePairs);
 }
@@ -293,16 +304,6 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
     window.draw(body);
 
-    /// trait : rsid
-    ///gender : 7620511
-    ///eyes : 4959788
-    ///hair : 6549120
-    ///personality : 952399
-
-    searchThese.push_back(7620511);
-    searchThese.push_back(4959788);
-    searchThese.push_back(6549120);
-    searchThese.push_back(952399);
 
     ///get vector of traits///
 
@@ -311,7 +312,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     clock_t bstStop = clock();
 
 
-    RBTtree.searchRBT(RBTtree.root, searchThese);
+    //RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t rbtEnd = clock();
 
 //    ///to make sure the trait vectors are the same
