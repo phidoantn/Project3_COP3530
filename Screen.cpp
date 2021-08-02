@@ -7,6 +7,8 @@
 #include <vector>
 #include <time.h>
 #include <iomanip>
+#include <cmath>
+#include <chrono>
 using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
@@ -38,11 +40,15 @@ void Screen::doTheStuff() {
     clock_t bstStop = clock();
     double elapsed = (double)(rstStop - bstStop) / CLOCKS_PER_SEC;
     bstTime += elapsed;                          //bstTime originally -> time to build tree + time to search tree = new bstTime
+    bstTime = bstTime / 1000000;
+    bstTime = round(bstTime);
 
     //RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t rbtEnd = clock();
     double relapsed = (double)(bstStop - rbtEnd) / CLOCKS_PER_SEC;
-    rbtTime += relapsed;                        //rbtTime originally -> time to build tree + time to search tree = new rstTime
+    rbtTime += relapsed;                    //rbtTime originally -> time to build tree + time to search tree = new rstTime
+    rbtTime = rbtTime / 1000000;
+    rbtTime = round(rbtTime);
 
 //    ///to make sure the trait vectors are the same
 //    for(int i = 0; i < tree.traits.size(); i++){
@@ -183,7 +189,7 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
     window.draw(traits);
 
     /// box ///
-    sf::RectangleShape b(sf::Vector2f(400, 500));
+    sf::RectangleShape b(sf::Vector2f(460, 500));
     b.setPosition(850.f, 200.f);
     b.setFillColor(sf::Color::Transparent);
     b.setOutlineColor(sf::Color::Black);
@@ -264,6 +270,7 @@ void Screen::TopButton(sf::RenderWindow& window) {
     basePairs.setCharacterSize(25);
     basePairs.setPosition(860, 225);
     basePairs.setFillColor(sf::Color::Black);
+
     basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(bstTime) + "\n" + "\n" + "TIME WITH RBT: " + to_string(rbtTime) + "\n");
 
     window.draw(basePairs);
