@@ -114,8 +114,7 @@ void RBT::rotateLeft(NodeRB* node)
 	
 }
 
-void
-RBT::rotateRight(NodeRB* node)
+void RBT::rotateRight(NodeRB* node)
 {
 	NodeRB* grandChild = node->left->right;
 	NodeRB* newParent = node->left;
@@ -154,7 +153,7 @@ void RBT::printIn(NodeRB* root)
 	else
 	{
 		printIn(root->left);
-	
+		cout << root->rsid << " ";
 		printIn(root->right);
 
 	}
