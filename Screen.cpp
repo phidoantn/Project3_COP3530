@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <time.h>
+#include <iomanip>
 using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
@@ -221,6 +222,33 @@ void Screen::TopButton(sf::RenderWindow& window) {
 
     window.draw(helix);
 
+    clock_t stopRst = clock();
+    tree.searchBST(tree.root, searchThese);
+    clock_t stopBst = clock();
+    RBTtree.searchRBT(RBTtree.root, searchThese);
+    clock_t startBstA = clock();
+
+    string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
+    A1 = "7620511: " + tree.traits.at(0);
+    A2 = "4959788: " + tree.traits.at(1);
+    A3 = "6549120: " + tree.traits.at(2);
+    A4 = "952399: " + tree.traits.at(3);
+
+    clock_t end = clock();
+    double elapsedBST = (double)((bstStartAgain - stopBst) + (startBstA - end)) / (CLOCKS_PER_SEC * 10000); // millisecond
+    double finalbst = bstTime + elapsedBST;
+    double elapsedRBT = (double)((rbtStartAgain - stopRst) + (stopBst - end)) / (CLOCKS_PER_SEC / 10000);
+    double finalrst = rbtTime + elapsedRBT;
+    cout<<fixed<<setprecision(2);
+
+    sf::Text basePairs;
+    basePairs.setFont(font);
+    basePairs.setCharacterSize(25);
+    basePairs.setPosition(860, 225);
+    basePairs.setFillColor(sf::Color::Black);
+    basePairs.setString(A1 + "\n" + "\n" + A2 + "\n" + "\n" + A3 + "\n" + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
+
+    window.draw(basePairs);
 }
 
 
@@ -270,7 +298,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     ///eyes : 4959788
     ///hair : 6549120
     ///personality : 952399
-    vector<int> searchThese;
+
     searchThese.push_back(7620511);
     searchThese.push_back(4959788);
     searchThese.push_back(6549120);
@@ -283,7 +311,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     clock_t bstStop = clock();
 
 
-    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t rbtEnd = clock();
 
 //    ///to make sure the trait vectors are the same
@@ -306,8 +334,8 @@ void Screen::BottomButton(sf::RenderWindow& window) {
         }
         sf::Sprite blueshirt;
         blueshirt.setTexture(s);
-        blueshirt.setScale(sf::Vector2f(0.4f, 0.4f));
-        blueshirt.setPosition(510.f, 170.f);
+        blueshirt.setScale(sf::Vector2f(0.1f, 0.1f));
+        blueshirt.setPosition(475.f, 200.f);
         female = false;
 
         window.draw(blueshirt);
@@ -529,24 +557,19 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     }
     fo = p + " personality";
 
-    string A1, A2, A3, A4;                               //to save the rsid values plus the associated allele thing
-    A1 = "7620511: " + tree.traits.at(0);
-    A2 = "4959788: " + tree.traits.at(1);
-    A3 = "6549120: " + tree.traits.at(2);
-    A4 = "952399: " + tree.traits.at(3);
-
     clock_t end = clock();
-    double elapsedBST = (double)((bstStartAgain - bstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 1000); // millisecond
+    double elapsedBST = (double)((bstStartAgain - bstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 10000); // millisecond
     double finalbst = bstTime + elapsedBST;
-    double elapsedRBT = (double)((rbtStartAgain - rstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC / 10000);
+    double elapsedRBT = (double)((rbtStartAgain - rstStop) + (rbtEnd - end)) / (CLOCKS_PER_SEC * 10000);
     double finalrst = rbtTime + elapsedRBT;
+    cout<<fixed<<setprecision(2);
 
     sf::Text dnaSequence;
     dnaSequence.setFont(font);
     dnaSequence.setCharacterSize(25);
     dnaSequence.setFillColor(sf::Color::Black);
     dnaSequence.setPosition(860, 225);
-    dnaSequence.setString(f + "\n" + A1 + "\n" + "\n" + s + "\n" + A2 + "\n" + "\n" + t + "\n" + A3 + "\n" + "\n" + fo + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
+    dnaSequence.setString(f + "\n" + "\n" + s + "\n" + "\n" + t  + "\n" + "\n" + fo + "\n" + "\n" + "TIME WITH BST: " + to_string(finalbst) + "\n" + "\n" + "TIME WITH RBT: " +  "\n");
 
     window.draw(dnaSequence);
 
