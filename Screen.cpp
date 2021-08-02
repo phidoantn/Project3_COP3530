@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <time.h>
 using namespace std;
 Screen::Screen() {
 
@@ -63,7 +64,7 @@ void Screen::insertRBT()
 
         istringstream stream(line);
 
-        //obmit first 13 lines 
+        //obmit first 13 lines
         if (iter > 12) {
             getline(stream, rsid, ',');
             getline(stream, ch, ',');
@@ -84,6 +85,9 @@ void Screen::insertRBT()
 
 void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition) {
     sf::Font font;
+    bstStart = clock();
+    rbtStart = clock();
+
     if (!font.loadFromFile("font.otf")) {
         cout << "error loading font" << endl;
     }
@@ -251,10 +255,29 @@ void Screen::BottomButton(sf::RenderWindow& window) {
 
     window.draw(body);
 
-    ///build tree
+    /// trait : rsid
+    ///gender : 7620511
+    ///eyes : 4959788
+    ///hair : 6549120
+    ///personality : 952399
+    vector<int> searchThese;
+    searchThese.push_back(7620511);
+    searchThese.push_back(4959788);
+    searchThese.push_back(6549120);
+    searchThese.push_back(952399);
+
+    ///build trees + get vector of traits///
+
+    clock_t rbtStop = clock();
     insertBST();
-    ///get vector of traits
-    tree.searchBST(tree.root);
+    tree.searchBST(tree.root, searchThese);
+
+    clock_t bstStop = clock();
+    insertRBT();
+    RBTtree.searchRBT(RBTtree.root, searchThese);
+    clock_t bstStartAgain = clock();
+
+
 
     string f, s, t, fo;         //specific trait + trait
     string g, e, h, p;          //specific trait (to be added to string above
@@ -496,12 +519,16 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     A3 = "6549120: " + tree.traits.at(2);
     A4 = "952399: " + tree.traits.at(3);
 
+    clock_t end = clock();
+    double elapsedBST = (double)((bstStart - bstStop) + (bstStartAgain - end)) / CLOCKS_PER_SEC;
+    double elapsedRBT = (double)((rbtStart - rbtStop) + (bstStop - end)) / CLOCKS_PER_SEC;
+
     sf::Text dnaSequence;
     dnaSequence.setFont(font);
     dnaSequence.setCharacterSize(25);
     dnaSequence.setFillColor(sf::Color::Black);
     dnaSequence.setPosition(900, 250);
-    dnaSequence.setString(f + "\n" + A1 + "\n" + s + "\n" + A2 + "\n" + t + "\n" + A3 + "\n" + fo + "\n" + A4);
+    dnaSequence.setString(f + "\n" + A1 + "\n" + "\n" + s + "\n" + A2 + "\n" + "\n" + t + "\n" + A3 + "\n" + "\n" + fo + "\n" + A4 + "\n" + "\n" + "TIME WITH BST: " + to_string(elapsedBST) + "\n" + "\n" + "TIME WITH RBT: " + to_string(elapsedRBT) + "\n");
 
     window.draw(dnaSequence);
 
