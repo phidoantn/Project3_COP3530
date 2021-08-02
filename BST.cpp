@@ -29,17 +29,7 @@ Node* BST::insertNode(Node* r, int rsid, string letters) {
     return r;
 }
 
-void BST::searchBST(Node* r) {
-	/// trait : rsid
-	///gender : 7620511
-	///eyes : 4959788
-	///hair : 6549120
-	///personality : 952399
-	vector<int> searchThese;
-	searchThese.push_back(7620511);
-	searchThese.push_back(4959788);
-	searchThese.push_back(6549120);
-	searchThese.push_back(952399);
+void BST::searchBST(Node* r, vector<int> searchThese) {
 	int i = 0;
 	while (traits.size() < 4) {
 		if (r->rsid == searchThese.at(i)) {
