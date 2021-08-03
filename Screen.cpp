@@ -13,17 +13,15 @@ Screen::Screen() {
     this->rbtTime = 0;
     this->fileToLoad = "";
 
-    /// trait : rsid
-    ///gender : 7620511
-    ///eyes : 4959788
-    ///hair : 6549120
-    ///personality : 952399
-
+    
+// add value in to searchThese vector
     searchThese.push_back(7620511);
     searchThese.push_back(4959788);
     searchThese.push_back(6549120);
     searchThese.push_back(952399);
 }
+
+
 void Screen::doTheStuff() {
     ///get vector of traits///
 
@@ -43,6 +41,8 @@ void Screen::doTheStuff() {
     rbtTime = round(rbtTime);
 
 }
+
+// call insert function BST
 void Screen::insertBST() {
     clock_t bstStart = clock();
 
@@ -77,12 +77,16 @@ void Screen::insertBST() {
         }
         iter++;
     }
+    
+    // stop clock
     clock_t bstStop;
     file.close();
     double elapsedBSTInsert = (double) (bstStop - bstStart) / CLOCKS_PER_SEC;
     bstTime = elapsedBSTInsert;
 }
 
+
+// insert Red black tree
 void Screen::insertRBT()
 {
     clock_t bstS = clock();
@@ -119,12 +123,14 @@ void Screen::insertRBT()
         iter++;
     }
     clock_t rstStop;
-    //cout << "rbt count: " << rbtCount << endl;
+    
     file.close();
     double elapsedRSTInsert = (double) (rstStop - bstS) / CLOCKS_PER_SEC;
     rbtTime = elapsedRSTInsert;
 }
 
+
+// draw the screeen
 void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &count) {
     sf::Font font;
 
@@ -152,6 +158,7 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &cou
     b2title.setFillColor(sf::Color::White);
     b2title.setPosition(135.f, 510.f);
 
+    // draw these sprites
     window.draw(button);
     window.draw(b1title);
     window.draw(button2);
@@ -218,6 +225,8 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &cou
     }
 
 }
+
+// initialize screen
 
 void Screen::Initial(string file){
     fileToLoad = "";
