@@ -87,7 +87,7 @@ void Screen::insertBST() {
 
 void Screen::insertRBT()
 {
-    clock_t bstStop = clock();
+    clock_t bstS = clock();
 
     fstream file;
     file.open("fourthdnafile.csv");
@@ -123,7 +123,7 @@ void Screen::insertRBT()
     clock_t rstStop;
     cout << "rbt count: " << rbtCount << endl;
     file.close();
-    double elapsedRSTInsert = (double) (rstStop - bstStop) / CLOCKS_PER_SEC;
+    double elapsedRSTInsert = (double) (rstStop - bstS) / CLOCKS_PER_SEC;
     rbtTime = elapsedRSTInsert;
 }
 
@@ -213,8 +213,9 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &cou
     }
     //invisible reset button
     if(mousePosition.y > 0 && mousePosition.y < 100 && mousePosition.x > 0 && mousePosition.x < 100 && count == 0 && buttonPress == true){
+        bstTime = 0;
+        rbtTime = 0;
         Reset(window);
-        //count++;
         buttonPress = false;
     }
 
