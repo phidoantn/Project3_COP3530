@@ -6,9 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <time.h>
-#include <iomanip>
 #include <cmath>
-#include <chrono>
 using namespace std;
 Screen::Screen() {
     this->bstTime = 0;
@@ -31,14 +29,14 @@ void Screen::doTheStuff() {
 
     clock_t t = clock();
     tree.searchBST(tree.root, searchThese);
-    clock_t bstStop = clock();
+    clock_t bstStop;
     double elapsed = (double)(bstStop - t) / CLOCKS_PER_SEC;
     bstTime += elapsed;                          //bstTime originally -> time to build tree + time to search tree = new bstTime
     bstTime = bstTime / 1000000;
     bstTime = round(bstTime);
 
     RBTtree.searchRBT(RBTtree.root, searchThese);
-    clock_t rbtEnd = clock();
+    clock_t rbtEnd;
     double relapsed = (double)(rbtEnd - bstStop) / CLOCKS_PER_SEC;
     rbtTime += relapsed;                    //rbtTime originally -> time to build tree + time to search tree = new rstTime
     rbtTime = rbtTime / 1000000;
@@ -121,7 +119,7 @@ void Screen::insertRBT()
         iter++;
     }
     clock_t rstStop;
-    cout << "rbt count: " << rbtCount << endl;
+    //cout << "rbt count: " << rbtCount << endl;
     file.close();
     double elapsedRSTInsert = (double) (rstStop - bstS) / CLOCKS_PER_SEC;
     rbtTime = elapsedRSTInsert;
@@ -390,7 +388,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     f = "Gender: " + g;
 
 
-                                                                ///eyes///
+    ///eyes///
     if (tree.traits.at(1) == "CT") {
         sf::Texture h;
         if (!h.loadFromFile("images/BE.png")) {
@@ -443,7 +441,7 @@ void Screen::BottomButton(sf::RenderWindow& window) {
     s = "Eyes: " + e;
 
 
-                                                                         ///hair///
+    ///hair///
     if (tree.traits.at(2) == "GG") {            //brown
         if (female) {
             sf::Texture z;
