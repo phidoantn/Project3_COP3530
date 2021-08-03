@@ -12,8 +12,6 @@ public:
     BST tree;
     RBT RBTtree;
     string fileToLoad;
-    clock_t bstStartAgain;
-    clock_t rbtStartAgain;
     vector<int> searchThese;
     bool buttonPress = true;
     Screen();
@@ -26,9 +24,4 @@ public:
     void Initial(string file);
     void Reset(sf::RenderWindow &window);
 
-    void setbstTime(double b);
-    void setrbtTime(double r);
-
 };
-
-
