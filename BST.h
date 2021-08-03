@@ -24,5 +24,6 @@ public:
 
     Node* insertNode(Node* r, int rsid, string result);
     void searchBST(Node* r, vector<int> rsid);
+    void deleteTree(Node* r);
 
 };
