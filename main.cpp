@@ -1,10 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Screen.h"
-#include <fstream>
-#include <sstream>
-#include <time.h>
-
 
 int main() {
     Screen send;
@@ -13,7 +9,6 @@ int main() {
     cin >> input;
     input += ".csv";
     int iter = 0;
-    sf::Vector2i save;
     send.Initial(input);
 
         sf::RenderWindow window(sf::VideoMode(1350, 750), "cop3530 project3");
@@ -29,7 +24,6 @@ int main() {
                 if (event.type == sf::Event::MouseButtonPressed) {
                     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        save = mousePositionSave;
                         mousePositionSave = mousePosition;                              //save position of click if left click
                     }
                 }
