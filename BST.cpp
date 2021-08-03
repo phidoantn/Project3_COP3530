@@ -64,8 +64,6 @@ void BST::deleteTree(Node* r){
 
 Node::~Node()
 {
-    //delete left;
-    //delete right;
     result = "";
     rsid = 0;
 }
