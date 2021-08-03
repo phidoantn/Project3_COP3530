@@ -20,12 +20,14 @@ Node* BST::insertNode(Node* r, int rsid, string letters) {
         }
         return new Node(rsid, letters);
      }
+    else {
         if (rsid < r->rsid) {
             r->left = insertNode(r->left, rsid, letters);
         }
         if (rsid > r->rsid) {
             r->right = insertNode(r->right, rsid, letters);
         }
+    }
     return r;
 }
 
@@ -49,9 +51,21 @@ void BST::searchBST(Node* r, vector<int> searchThese) {
 	}
 }
 
+void BST::deleteTree(Node* r){
+    if (r == nullptr){
+        return;
+    }
+    deleteTree(r->left);
+    deleteTree(r->right);
+
+    delete r;
+}
+
 
 Node::~Node()
 {
-    delete left;
-    delete right;
+    //delete left;
+    //delete right;
+    result = "";
+    rsid = 0;
 }
