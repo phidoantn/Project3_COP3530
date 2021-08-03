@@ -20,6 +20,8 @@ Node* BST::insertNode(Node* r, int rsid, string letters) {
         }
         return new Node(rsid, letters);
      }
+	
+	//recursive insert
     else {
         if (rsid < r->rsid) {
             r->left = insertNode(r->left, rsid, letters);
@@ -31,6 +33,7 @@ Node* BST::insertNode(Node* r, int rsid, string letters) {
     return r;
 }
 
+//searh through the tree
 void BST::searchBST(Node* r, vector<int> searchThese) {
 	int i = 0;
 	while (traits.size() < 4) {
@@ -50,6 +53,8 @@ void BST::searchBST(Node* r, vector<int> searchThese) {
 		}
 	}
 }
+
+//delete the tree
 
 void BST::deleteTree(Node* r){
     if (r == nullptr){
