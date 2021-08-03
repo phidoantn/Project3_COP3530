@@ -26,39 +26,27 @@ Screen::Screen() {
     searchThese.push_back(6549120);
     searchThese.push_back(952399);
 }
-void Screen::setbstTime(double b) {
-    this->bstTime = b;
-}
-
-void Screen::setrbtTime(double r) {
-    this->rbtTime = r;
-}
 void Screen::doTheStuff() {
     ///get vector of traits///
 
-    clock_t rstStop = clock();
+    clock_t t = clock();
     tree.searchBST(tree.root, searchThese);
     clock_t bstStop = clock();
-    double elapsed = (double)(rstStop - bstStop) / CLOCKS_PER_SEC;
+    double elapsed = (double)(bstStop - t) / CLOCKS_PER_SEC;
     bstTime += elapsed;                          //bstTime originally -> time to build tree + time to search tree = new bstTime
     bstTime = bstTime / 1000000;
     bstTime = round(bstTime);
 
-    //RBTtree.searchRBT(RBTtree.root, searchThese);
+    RBTtree.searchRBT(RBTtree.root, searchThese);
     clock_t rbtEnd = clock();
-    double relapsed = (double)(bstStop - rbtEnd) / CLOCKS_PER_SEC;
+    double relapsed = (double)(rbtEnd - bstStop) / CLOCKS_PER_SEC;
     rbtTime += relapsed;                    //rbtTime originally -> time to build tree + time to search tree = new rstTime
     rbtTime = rbtTime / 1000000;
     rbtTime = round(rbtTime);
 
-//    ///to make sure the trait vectors are the same
-//    for(int i = 0; i < tree.traits.size(); i++){
-//        if(tree.traits.at(i) != RBTtree.RBTtraits.at(i)){
-//            cout << "the bst and rbt tree search did not return the same thing" << endl;
-//        }
-//    }
 }
 void Screen::insertBST() {
+    clock_t bstStart = clock();
 
     ifstream file;
     file.open(fileToLoad);
@@ -91,12 +79,16 @@ void Screen::insertBST() {
         }
         iter++;
     }
+    clock_t bstStop;
     file.close();
-   // cout << "count: " << count << endl;
+    double elapsedBSTInsert = (double) (bstStop - bstStart) / CLOCKS_PER_SEC;
+    bstTime = elapsedBSTInsert;
 }
 
 void Screen::insertRBT()
 {
+    clock_t bstStop = clock();
+
     fstream file;
     file.open("fourthdnafile.csv");
 
@@ -108,7 +100,7 @@ void Screen::insertRBT()
     int iter = 0;
     int rbtCount = 0;   //debug
     //gets line, reach each line
-    while (getline(file, line) && iter < 30) {
+    while (getline(file, line)) {
 
         istringstream stream(line);
 
@@ -128,14 +120,15 @@ void Screen::insertRBT()
         }
         iter++;
     }
+    clock_t rstStop;
     cout << "rbt count: " << rbtCount << endl;
     file.close();
+    double elapsedRSTInsert = (double) (rstStop - bstStop) / CLOCKS_PER_SEC;
+    rbtTime = elapsedRSTInsert;
 }
 
 void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &count) {
     sf::Font font;
-    bstStartAgain = clock();
-    rbtStartAgain = clock();
 
     if (!font.loadFromFile("font.otf")) {
         cout << "error loading font" << endl;
@@ -219,7 +212,7 @@ void Screen::Draw(sf::RenderWindow& window, sf::Vector2i mousePosition, int &cou
         buttonPress = true;
     }
     //invisible reset button
-    if(mousePosition.y > 0 && mousePosition.y < 50 && mousePosition.x > 0 && mousePosition.x < 50 && count == 0 && buttonPress == true){
+    if(mousePosition.y > 0 && mousePosition.y < 100 && mousePosition.x > 0 && mousePosition.x < 100 && count == 0 && buttonPress == true){
         Reset(window);
         //count++;
         buttonPress = false;
@@ -236,16 +229,9 @@ void Screen::Initial(string file){
         tree.root = nullptr;
         tree.traits.clear();
     }
-    clock_t bstStart;
-    insertBST();
-    clock_t bstStop;
-    double elapsedBSTInsert = (double) (bstStart - bstStop) / CLOCKS_PER_SEC;
-    setbstTime(elapsedBSTInsert);
 
-    //send.insertRBT(); ///uncomment when rbt is fixed
-    clock_t rstStop;
-    double elapsedRSTInsert = (double) (bstStop - rstStop) / CLOCKS_PER_SEC;
-    setrbtTime(elapsedRSTInsert);
+    insertBST();
+    insertRBT();
 
     doTheStuff();
 }
